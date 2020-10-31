@@ -1,6 +1,6 @@
-package com.liferay.demo.commerce.portlet;
+package com.liferay.demo.qr.portlet;
 
-import com.liferay.demo.commerce.constants.QRCodeGeneratorPortletKeys;
+import com.liferay.demo.qr.constants.QRCodeGeneratorPortletKeys;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 

@@ -1,4 +1,4 @@
-package com.liferay.demo.commerce.constants;
+package com.liferay.demo.qr.constants;
 
 /**
  * @author jverweij
