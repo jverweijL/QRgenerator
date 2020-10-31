@@ -16,4 +16,12 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
     QRCodeGeneratorPortletConfiguration portletInstanceConfiguration = portletDisplay.getPortletInstanceConfiguration(QRCodeGeneratorPortletConfiguration.class);
     String url = portletInstanceConfiguration.url();
     pageContext.setAttribute("url",url);
+    String match = portletInstanceConfiguration.match();
+    pageContext.setAttribute("match",match);
+    String replace = portletInstanceConfiguration.replace();
+    pageContext.setAttribute("replace",replace);
+    String foregroundColor = portletInstanceConfiguration.foregroundColor();
+    pageContext.setAttribute("foregroundColor",foregroundColor);
+    String backgroundColor = portletInstanceConfiguration.backgroundColor();
+    pageContext.setAttribute("backgroundColor",backgroundColor);
 %>

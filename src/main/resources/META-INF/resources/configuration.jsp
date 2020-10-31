@@ -18,6 +18,16 @@
             <aui:fieldset>
                 <aui:input name="preferences--url--" label="Define static url" value="${url}"></aui:input>
             </aui:fieldset>
+            <aui:fieldset>
+                <aui:input name="preferences--match--" label="Regex for matching" value="${match}"></aui:input>
+                <aui:input name="preferences--replace--" label="Replacement" value="${replace}"></aui:input>
+            </aui:fieldset>
+            <aui:fieldset>
+                <aui:input name="preferences--foregroundColor--" label="Foreground Color" value="${foregroundColor}"></aui:input>
+            </aui:fieldset>
+            <aui:fieldset>
+                <aui:input name="preferences--backgroundColor--" label="Background Color" value="${backgroundColor}"></aui:input>
+            </aui:fieldset>
         </div>
     </div>
 

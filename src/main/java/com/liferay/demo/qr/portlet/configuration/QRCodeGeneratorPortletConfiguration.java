@@ -13,4 +13,16 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 public interface QRCodeGeneratorPortletConfiguration {
     @Meta.AD(deflt = "", required = false)
     String url();
+
+    @Meta.AD(deflt = "", required = false)
+    String match();
+
+    @Meta.AD(deflt = "", required = false)
+    String replace();
+
+    @Meta.AD(deflt = "#000000", required = false)
+    String foregroundColor();
+
+    @Meta.AD(deflt = "#FFFFFF", required = false)
+    String backgroundColor();
 }

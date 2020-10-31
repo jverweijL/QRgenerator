@@ -67,15 +67,26 @@ public class QRCodeGeneratorPortlet extends MVCPortlet {
 		HttpServletRequest httpRequest = PortalUtil.getHttpServletRequest(renderRequest);
 
 		String myCodeText = "";
+		String foreground = "#000000";
+		String background = "#FFFFFF";
 
 		PortletPreferences preferences = renderRequest.getPreferences();
 		if (Validator.isNotNull(preferences))
 		{
 			myCodeText = GetterUtil.getString(preferences.getValue("url",""));
+			foreground = GetterUtil.getString(preferences.getValue("foregroundColor","#000000"));
+			background = GetterUtil.getString(preferences.getValue("backgroundColor","#FFFFFF"));
 		}
 
+		// set the current url if no config url is set
 		if (myCodeText.isEmpty()) {
 			myCodeText = PortalUtil.getCurrentCompleteURL(httpRequest);
+		}
+
+		// modify the url with regex
+		if (Validator.isNotNull(preferences))
+		{
+			myCodeText = myCodeText.replaceAll(GetterUtil.getString(preferences.getValue("match","")),GetterUtil.getString(preferences.getValue("replace","")));
 		}
 
 		int size = 250;
@@ -97,9 +108,9 @@ public class QRCodeGeneratorPortlet extends MVCPortlet {
 			image.createGraphics();
 
 			Graphics2D graphics = (Graphics2D) image.getGraphics();
-			graphics.setColor(Color.WHITE);
+			graphics.setColor(Color.decode(background));
 			graphics.fillRect(0, 0, CrunchifyWidth, CrunchifyWidth);
-			graphics.setColor(Color.BLACK);
+			graphics.setColor(Color.decode(foreground));
 
 			for (int i = 0; i < CrunchifyWidth; i++) {
 				for (int j = 0; j < CrunchifyWidth; j++) {
