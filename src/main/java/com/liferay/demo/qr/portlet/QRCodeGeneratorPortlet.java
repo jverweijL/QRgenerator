@@ -2,14 +2,16 @@ package com.liferay.demo.qr.portlet;
 
 import com.liferay.demo.qr.constants.QRCodeGeneratorPortletKeys;
 
+import com.liferay.demo.qr.portlet.configuration.QRCodeGeneratorPortletConfiguration;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
+import javax.portlet.*;
 
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 
 import java.awt.image.RenderedImage;
@@ -33,11 +35,13 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import org.osgi.service.component.annotations.Modified;
 
 /**
  * @author jverweij
  */
 @Component(
+	configurationPid = "com.liferay.demo.qr.portlet.configuration.QRCodeGeneratorPortletConfiguration",
 	immediate = true,
 	property = {
 		"com.liferay.portlet.display-category=category.sample",
@@ -52,6 +56,8 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 )
 public class QRCodeGeneratorPortlet extends MVCPortlet {
 
+	private volatile QRCodeGeneratorPortletConfiguration _configuration;
+
 	@Override
 	public void doView(
 			RenderRequest renderRequest, RenderResponse renderResponse)
@@ -59,16 +65,22 @@ public class QRCodeGeneratorPortlet extends MVCPortlet {
 
 		System.out.println("Creating QR Code.");
 		HttpServletRequest httpRequest = PortalUtil.getHttpServletRequest(renderRequest);
-		//httpRequest = PortalUtil.getOriginalServletRequest(httpRequest);
 
-		String myCodeText = PortalUtil.getCurrentCompleteURL(httpRequest);;
-		//renderRequest.setAttribute("test","abc");
-		//String filePath = "/Users/appshah/Documents/CrunchifyQR.png";
+		String myCodeText = "";
+
+		PortletPreferences preferences = renderRequest.getPreferences();
+		if (Validator.isNotNull(preferences))
+		{
+			myCodeText = GetterUtil.getString(preferences.getValue("url",""));
+		}
+
+		if (myCodeText.isEmpty()) {
+			myCodeText = PortalUtil.getCurrentCompleteURL(httpRequest);
+		}
+
 		int size = 250;
 		String fileType = "png";
-		//File myFile = new File(filePath);
 		try {
-
 			Map<EncodeHintType, Object> hintMap = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
 			hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 
@@ -117,5 +129,12 @@ public class QRCodeGeneratorPortlet extends MVCPortlet {
 		} catch (final IOException ioe) {
 			throw new UncheckedIOException(ioe);
 		}
+	}
+
+	@Activate
+	@Modified
+	protected void activate(Map<String,Object> properties)
+	{
+		_configuration = ConfigurableUtil.createConfigurable(QRCodeGeneratorPortletConfiguration.class,properties);
 	}
 }

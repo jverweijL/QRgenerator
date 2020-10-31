@@ -2,3 +2,5 @@ Bundle-Name: QRcode
 Bundle-SymbolicName: com.liferay.demo.qr.qrcode
 Bundle-Version: 1.0.0
 Export-Package: com.liferay.demo.qr.constants
+
+-metaype: *

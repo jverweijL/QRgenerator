@@ -1,3 +1,4 @@
+<%@ page import="com.liferay.demo.qr.portlet.configuration.QRCodeGeneratorPortletConfiguration" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
@@ -11,3 +12,8 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <portlet:defineObjects />
 
+<%
+    QRCodeGeneratorPortletConfiguration portletInstanceConfiguration = portletDisplay.getPortletInstanceConfiguration(QRCodeGeneratorPortletConfiguration.class);
+    String url = portletInstanceConfiguration.url();
+    pageContext.setAttribute("url",url);
+%>
