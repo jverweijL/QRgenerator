@@ -73,21 +73,18 @@ public class QRCodeGeneratorPortlet extends MVCPortlet {
 		PortletPreferences preferences = renderRequest.getPreferences();
 		if (Validator.isNotNull(preferences))
 		{
-			foreground = GetterUtil.getString(preferences.getValue("foregroundColor","#000000"));
-			background = GetterUtil.getString(preferences.getValue("backgroundColor","#FFFFFF"));
+			foreground = GetterUtil.getString(preferences.getValue("foregroundColor",QRCodeGeneratorPortletKeys.FOREGROUND));
+			background = GetterUtil.getString(preferences.getValue("backgroundColor",QRCodeGeneratorPortletKeys.BACKGROUND));
 
 			myCodeText = GetterUtil.getString(preferences.getValue("url",""));
-			// set the current url if no config url is set
-			if (myCodeText.isEmpty()) {
-				myCodeText = PortalUtil.getCurrentCompleteURL(httpRequest);
-			}
-
-			// modify the url with regex
-			if (Validator.isNotNull(preferences))
-			{
-				myCodeText = myCodeText.replaceAll(GetterUtil.getString(preferences.getValue("match","")),GetterUtil.getString(preferences.getValue("replace","")));
-			}
 		}
+
+		if (foreground.isEmpty()) foreground = QRCodeGeneratorPortletKeys.FOREGROUND;
+		if (background.isEmpty()) background = QRCodeGeneratorPortletKeys.BACKGROUND;
+		if (myCodeText.isEmpty()) myCodeText = PortalUtil.getCurrentCompleteURL(httpRequest);
+
+		// replace the matches
+		myCodeText = myCodeText.replaceAll(GetterUtil.getString(preferences.getValue("match","")),GetterUtil.getString(preferences.getValue("replace","")));
 
 		int size = 250;
 		String fileType = "png";
