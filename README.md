@@ -11,3 +11,6 @@ Todo:
   
   Widget will create QRCode and use the statically defined URL and show with red foreground and gray background 
   ![alt text](./docs/config2.png "Sample config")
+  
+  Result using above settings
+  ![alt text](./docs/result.png "Result")
