@@ -1,5 +1,6 @@
 dependencies {
 	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+	compileOnly group: 'org.slf4j', name: 'slf4j-api'
 
 	// https://mvnrepository.com/artifact/com.google.zxing/core
 	compileInclude group: 'com.google.zxing', name: 'core', version: '3.3.3'

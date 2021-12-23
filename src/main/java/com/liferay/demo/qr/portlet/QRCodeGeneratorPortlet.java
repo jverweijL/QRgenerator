@@ -36,6 +36,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.osgi.service.component.annotations.Modified;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 /**
  * @author jverweij
@@ -57,13 +59,15 @@ import org.osgi.service.component.annotations.Modified;
 public class QRCodeGeneratorPortlet extends MVCPortlet {
 
 	private volatile QRCodeGeneratorPortletConfiguration _configuration;
+	private static final Log _log = LogFactoryUtil.getLog(QRCodeGeneratorPortlet.class);
+
 
 	@Override
 	public void doView(
 			RenderRequest renderRequest, RenderResponse renderResponse)
 			throws  IOException,PortletException {
 
-		System.out.println("Creating QR Code.");
+		_log.debug("Creating QR Code.");
 		HttpServletRequest httpRequest = PortalUtil.getHttpServletRequest(renderRequest);
 
 		String myCodeText = "";
@@ -116,7 +120,6 @@ public class QRCodeGeneratorPortlet extends MVCPortlet {
 					}
 				}
 			}
-			//ImageIO.write(image, fileType, myFile);
 			String base64String = imgToBase64String(image, fileType);
 
 			renderRequest.setAttribute("QRCode","data:image/png;base64," + base64String);
@@ -125,7 +128,7 @@ public class QRCodeGeneratorPortlet extends MVCPortlet {
 			e.printStackTrace();
 		}
 		//renderRequest.setAttribute("QRCode","abc");
-		System.out.println("\n\nYou have successfully created QR Code.");
+		_log.debug("\n\nYou have successfully created QR Code.");
 		super.doView(renderRequest, renderResponse);
 	}
 
